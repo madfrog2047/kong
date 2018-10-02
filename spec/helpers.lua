@@ -49,7 +49,11 @@ package.path = CUSTOM_PLUGIN_PATH .. ";" .. package.path
 -- a numerical representation of it.
 -- Ex: 1.11.2.2 -> 11122
 local function openresty_ver_num()
-  local nginx_bin = assert(nginx_signals.find_nginx_bin())
+  local nginx_bin = nginx_signals.find_nginx_bin()
+if not nginx_bin then
+os.execute("tail -n 100 servroot/logs/error.log")
+error("failed determining nginx_bin")
+end
   local _, _, _, stderr = pl_utils.executeex(string.format("%s -V", nginx_bin))
 
   local a, b, c, d = string.match(stderr or "", "openresty/(%d+)%.(%d+)%.(%d+)%.(%d+)")
