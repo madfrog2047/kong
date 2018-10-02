@@ -20,9 +20,9 @@ return {
           { body = { type = "string" }, },
         },
         custom_validator = function(config)
-          if is_present(config.message)
-          and(is_present(config.content_type)
-              or is_present(config.body)) then
+          if is_present(config.message) and
+             (is_present(config.content_type)
+             or is_present(config.body)) then
             return nil, "message cannot be used with content_type or body"
           end
           if is_present(config.content_type)
